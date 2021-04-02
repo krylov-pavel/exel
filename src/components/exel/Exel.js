@@ -1,18 +1,24 @@
+import {$} from '@core/dom'
 export class Exel {
   constructor(selector, options) {
-    this.$el = document.querySelector(selector)
+    this.$el = $(selector)
     this.components = options.components || []
   }
   getRoot() {
-    const node = document.createElement('div')
-    this.components.forEach((Component) => {
-      const component = new Component()
-      node.insertAdjacentHTML('beforeend', component.toHTML())
+    const $root = $.create('div', 'exel')
+    this.components = this.components.map((Component) => {
+      const $el = $.create('div', Component.className)
+      const component = new Component($el)
+      // node.insertAdjacentHTML('beforeend', component.toHTML())
+      $el.html(component.toHTML())
+      $root.append($el)
+      return component
     })
-    return node
+    return $root
   }
   render() {
     // this.$el.insertAdjacentHTML('afterbegin', '<h1>Test</h1>')
     this.$el.append(this.getRoot())
+    this.components.forEach(component => component.init())
   }
 }
