@@ -20,5 +20,9 @@ export class Exel {
     // this.$el.insertAdjacentHTML('afterbegin', '<h1>Test</h1>')
     this.$el.append(this.getRoot())
     this.components.forEach(component => component.init())
+    // this.components.forEach(component => component.destroy())
+    // setTimeout(() => {
+    //   this.components.forEach(component => component.removeListener())
+    // }, 10000)
   }
 }

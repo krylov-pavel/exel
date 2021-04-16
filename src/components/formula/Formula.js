@@ -6,7 +6,7 @@ export class Formula extends ExelComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'click']
-    });
+    })
   }
   toHTML() {
     return `
