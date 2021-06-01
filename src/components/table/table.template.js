@@ -3,7 +3,7 @@ const CODES = {
   'Z': 90
 }
 
-function createCeil() {
+function toCeil() {
   return `
    <div class="cell" contenteditable=""></div>
   `
@@ -15,16 +15,16 @@ function toCol(el) {
   `
 }
 
-function createRow(data) {
+function createRow(index, data) {
   return `
     <div class="row">
-      <div class="row-info"></div>
+      <div class="row-info">${index ? index : ''}</div>
       <div class="row-data">${data}</div>
     </div>
   `
 }
 
-function toChar(index) {
+function toChar(_, index) {
   return String.fromCharCode(CODES.A + index)
 }
 
@@ -33,17 +33,16 @@ export function tableTemplate(rowCount = 15) {
   const rows = []
   const cols = new Array(colsCount)
       .fill('')
-      .map((el, index) => {
-        return String.fromCharCode(CODES.A + index)
-      })
-      .map((el) => {
-        return toCol(el)
-      })
+      .map(toChar)
+      .map(toCol)
       .join('')
-  console.log(cols)
-  rows.push(createRow(cols))
-  for (let i = 0; i <= colsCount; i++) {
-    rows.push(createRow())
+  rows.push(createRow(null, cols))
+  for (let i = 0; i <= rowCount; i++) {
+    const cells = new Array(colsCount)
+        .fill('')
+        .map(toCeil)
+        .join('')
+    rows.push(createRow(i + 1, cells))
   }
   return rows.join('')
 }
