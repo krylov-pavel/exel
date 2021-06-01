@@ -11,14 +11,21 @@ function toCeil() {
 
 function toCol(el) {
   return `
-    <div class="column">${el}</div>
+    <div class="column">
+    ${el}
+    <div class="col-resize"></div>
+    </div>
   `
 }
 
 function createRow(index, data) {
+  const resizer = index ? '<div class="row-resize"></div>' : ''
   return `
     <div class="row">
-      <div class="row-info">${index ? index : ''}</div>
+      <div class="row-info">
+        ${index ? index : ''}
+        ${resizer}
+      </div>
       <div class="row-data">${data}</div>
     </div>
   `
