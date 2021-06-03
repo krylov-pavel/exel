@@ -3,25 +3,25 @@ const CODES = {
   'Z': 90
 }
 
-function toCeil() {
+function toCeil(el, index) {
   return `
-   <div class="cell" contenteditable=""></div>
+   <div class="cell" contenteditable="" data-col="${index}"></div>
   `
 }
 
-function toCol(el) {
+function toCol(el, index) {
   return `
-    <div class="column">
+    <div class="column" data-type="resizeble" data-col="${index}">
     ${el}
-    <div class="col-resize"></div>
+    <div class="col-resize" data-resize="col"></div>
     </div>
   `
 }
 
 function createRow(index, data) {
-  const resizer = index ? '<div class="row-resize"></div>' : ''
+  const resizer = index ? '<div class="row-resize" data-resize="row"></div>' : ''
   return `
-    <div class="row">
+    <div class="row" data-type="resizeble">
       <div class="row-info">
         ${index ? index : ''}
         ${resizer}
