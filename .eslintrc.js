@@ -19,6 +19,8 @@ module.exports = {
     'operator-linebreak': 'off',
     'no-debugger': 'off',
     'no-unused-vars': 'off',
-    'linebreak-style': 'off'
+    'linebreak-style': 'off',
+    'max-len': 'off',
+    'guard-for-in': 'off'
   }
 }
