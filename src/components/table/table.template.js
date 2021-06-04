@@ -3,10 +3,12 @@ const CODES = {
   'Z': 90
 }
 
-function toCeil(el, index) {
-  return `
-   <div class="cell" contenteditable="" data-col="${index}"></div>
+function toCeil(row) {
+  return function(_, col) {
+    return `
+   <div class="cell" contenteditable="" data-col="${col}" data-id="${row}:${col}"></div>
   `
+  }
 }
 
 function toCol(el, index) {
@@ -44,12 +46,13 @@ export function tableTemplate(rowCount = 15) {
       .map(toCol)
       .join('')
   rows.push(createRow(null, cols))
-  for (let i = 0; i <= rowCount; i++) {
+  for (let row = 0; row <= rowCount; row++) {
     const cells = new Array(colsCount)
         .fill('')
-        .map(toCeil)
+        // .map((_, col) => toCeil(row, col))
+        .map(toCeil(row))
         .join('')
-    rows.push(createRow(i + 1, cells))
+    rows.push(createRow(row + 1, cells))
   }
   return rows.join('')
 }

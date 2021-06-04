@@ -41,6 +41,9 @@ class Dom {
   get data() {
     return this.$el.dataset
   }
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
@@ -54,6 +57,12 @@ class Dom {
           this.$el.style[key] = style[key]
         })
     return this
+  }
+  addClass(className) {
+    this.$el.classList.add(className)
+  }
+  removeClass(className) {
+    this.$el.classList.remove(className)
   }
 }
 export function $(selector) {
