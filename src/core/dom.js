@@ -11,6 +11,9 @@ class Dom {
     }
     return this.$el.outerHTML.trim()
   }
+  text(text) {
+    this.$el.textContent = text
+  }
   clear() {
     this.html('')
     return this
@@ -46,6 +49,21 @@ class Dom {
   }
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
+  }
+  focus() {
+    this.$el.focus()
+    return this
+  }
+  id(parse) {
+    if (parse) {
+      const $parsed = this.id().split(':')
+      const [row, col] = $parsed
+      return {
+        row: +row,
+        col: +col
+      }
+    }
+    return this.data.id
   }
   getCoords() {
     return this.$el.getBoundingClientRect()

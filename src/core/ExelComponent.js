@@ -1,10 +1,13 @@
 import {DomListener} from '@core/DomListener'
 
 export class ExelComponent extends DomListener {
-  constructor($root, option = {}) {
-    super($root, option.listeners)
-    this.name = option.name || ''
+  constructor($root, options = {}) {
+    super($root, options.listeners)
+    this.name = options.name || ''
+    this.prepare()
+    this.emitter = options.emitter
   }
+  prepare() {}
   toHTML() {
     return ''
   }
