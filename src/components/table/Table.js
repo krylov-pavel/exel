@@ -10,7 +10,7 @@ export class Table extends ExelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options
     });
   }
@@ -23,11 +23,17 @@ export class Table extends ExelComponent {
   init() {
     super.init()
     const $ceil = this.$root.find('[data-id="0:0"]')
-    this.selection.select($ceil)
-    this.emitter.subscribe('update text', data => {
+    this.selectCeil($ceil)
+    this.$on('update text', data => {
       this.selection.current.text(data)
-      console.log(data)
     })
+    this.$on('formula:done', data => {
+      this.selection.current.focus()
+    })
+  }
+  selectCeil(ceil) {
+    this.selection.select(ceil)
+    this.$emit('table:select', ceil)
   }
   onMousedown(event) {
     if (isResize(event)) {
@@ -45,10 +51,14 @@ export class Table extends ExelComponent {
   onKeydown(event) {
     const keys = ['Enter', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp']
     const {key} = event
-    if (keys.includes(key)) {
+    if (keys.includes(key) && !event.shiftKey) {
       event.preventDefault()
       const id = this.selection.current.id(true)
-      this.selection.select(this.$root.find(nextSelector(key, id)))
+      const $next = this.$root.find(nextSelector(key, id))
+      this.selectCeil($next)
     }
+  }
+  onInput(event) {
+    this.$emit('table:input', $(event.target))
   }
 }

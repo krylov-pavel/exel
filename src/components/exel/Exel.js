@@ -30,4 +30,7 @@ export class Exel {
     //   this.components.forEach(component => component.removeListener())
     // }, 10000)
   }
+  destroy() {
+    this.components.forEach(component => component.destroy())
+  }
 }
