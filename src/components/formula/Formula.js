@@ -6,6 +6,7 @@ export class Formula extends ExelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Formula',
+      subscribe: ['currentText'],
       listeners: ['input', 'click', 'keydown'],
       ...options
     })
@@ -21,11 +22,14 @@ export class Formula extends ExelComponent {
 
     this.$formula = this.$root.find('#formula')
     this.$on('table:select', $ceil => {
-      this.$formula.text($ceil.text())
+      this.$formula.text($ceil.data.value)
     })
-    this.$on('table:input', $ceil => {
-      this.$formula.text($ceil.text())
-    })
+    // this.$on('table:input', $ceil => {
+    //   this.$formula.text($ceil.text())
+    // })
+    // this.$subscribe(state => {
+    //   this.$formula.text(state.currentText)
+    // })
   }
   onInput(event) {
     const text = event.target.textContent.trim()
@@ -33,6 +37,9 @@ export class Formula extends ExelComponent {
   }
   onClick() {
     console.log('onClick event init')
+  }
+  storeChanged({currentText}) {
+    this.$formula.text(currentText)
   }
   onKeydown(event) {
     const {key} = event

@@ -1,15 +1,19 @@
 import {$} from '@core/dom'
 import {Emitter} from '@core/Emitter'
+import {StoreSubscribe} from '@core/StoreSubscribe'
 export class Exel {
   constructor(selector, options) {
     this.$el = $(selector)
     this.components = options.components || []
+    this.store = options.store
     this.emitter = new Emitter()
+    this.subscriber = new StoreSubscribe(this.store)
   }
   getRoot() {
     const $root = $.create('div', 'exel')
     const componentOptions = {
-      emitter: this.emitter
+      emitter: this.emitter,
+      store: this.store
     }
     this.components = this.components.map((Component) => {
       const $el = $.create('div', Component.className)
@@ -24,6 +28,7 @@ export class Exel {
   render() {
     // this.$el.insertAdjacentHTML('afterbegin', '<h1>Test</h1>')
     this.$el.append(this.getRoot())
+    this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
     // this.components.forEach(component => component.destroy())
     // setTimeout(() => {
@@ -31,6 +36,7 @@ export class Exel {
     // }, 10000)
   }
   destroy() {
+    this.subscriber.unsubscribeFromStore()
     this.components.forEach(component => component.destroy())
   }
 }
