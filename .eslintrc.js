@@ -6,10 +6,12 @@ module.exports = {
     }
   },
   env: {
-    browser: true,
-    es6: true,
-    node: true
+    'jest/globals': true,
+    'browser': true,
+    'es6': true,
+    'node': true,
   },
+  plugins: ['jest'],
   extends: ['eslint:recommended', 'google'],
   rules: {
     'semi': 'off',
